@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "211376798006-m19vo1p3757aqtsk4ddd893oktq44rs1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projetParking",
+            "certificate_hash": "cd38ac802b683a1ec72fb87c3118235d9c04319a"
+          }
+        },
+        {
           "client_id": "211376798006-sc0smlke42rbmu85lgl5mqfpf74hjfk8.apps.googleusercontent.com",
           "client_type": 3
         }
