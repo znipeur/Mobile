@@ -1,6 +1,10 @@
 package com.example.projetparking;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +27,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         //inflate layout
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.model_layout,parent,false);
@@ -35,13 +39,49 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
             public void onItemClick(View view, int position) {
 
 
-                //show data
-                String adresse = modelList.get(position).getAdresse();
-                Toast.makeText(parkingActivity, adresse, Toast.LENGTH_SHORT).show();
-            }
+                //show direction
+                        String adresse = modelList.get(position).getAdresse();
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q="+adresse);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        parkingActivity.startActivity(mapIntent);
+                    }
+
 
             @Override
-            public void onItemLongClick(View view, int position) {
+            public void onItemLongClick(View view, final int position) {
+                //on Long Click
+
+                //alert dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(parkingActivity);
+
+                String[] options = {"Update", "Delete"};
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            //update
+                            //get data
+                            String id = modelList.get(position).getId();
+                            String user = modelList.get(position).getUser();
+                            String adresse = modelList.get(position).getAdresse();
+                            Long capacite = modelList.get(position).getCapacite();
+
+                            //intent
+                            Intent i = new Intent(parkingActivity,HomeActivity.class);
+                            //put data in Intent
+                            i.putExtra("parkid",id);
+                            i.putExtra("parkUser",user);
+                            i.putExtra("parkAdresse",adresse);
+                            i.putExtra("parkCapacite",capacite);
+
+                            //start activity
+                            parkingActivity.startActivity(i);
+
+
+                        }
+                    }
+                });
 
             }
         });

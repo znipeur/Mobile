@@ -36,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     //FireStore Instance
     FirebaseFirestore db ;
 
+    String parkId,parkUser,parkAdresse,parkCapacite;
+
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
@@ -45,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Action Bar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Add Parking");
+
 
         //initialise composant de la page.
         btnLogout = findViewById(R.id.logout);
@@ -55,6 +57,29 @@ public class HomeActivity extends AppCompatActivity {
         editUser = findViewById(R.id.editUser);
         editCapacite = findViewById(R.id.editCapacite);
         editAdresse = findViewById(R.id.editAdresse);
+
+        //IF we are coming here after an Intent from another activity;
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            //Update
+            actionBar.setTitle("Update Parking");
+            btnSubmit.setText("Update");
+
+            //get Data
+            parkId = bundle.getString("parkId");
+            parkUser = bundle.getString("parkUser");
+            parkAdresse = bundle.getString("parkAdresse");
+            parkCapacite = bundle.getString("parkCapacite");
+
+            //set Data
+            editUser.setText(parkUser);
+            editAdresse.setText(parkAdresse);
+            editCapacite.setText(parkCapacite);
+        }
+        else {
+            actionBar.setTitle("Add Parking");
+            btnSubmit.setText("Save");
+        }
 
         //Progress
         pd = new ProgressDialog(this);
@@ -86,13 +111,29 @@ public class HomeActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getExtras();
+                if(bundle!=null){
+                    String user = editUser.getText().toString();
+                    String adresse = editAdresse.getText().toString();
+                    Long capacite = Long.parseLong(editCapacite.getText().toString());
+                    String id = parkId;
+
+                    //Updating the data
+                    updateData(id,user,adresse,capacite);
+
+                }
+                else {
+                    //adding new
+                    String user = editUser.getText().toString();
+                    String adresse = editAdresse.getText().toString();
+                    Long capacite = Long.parseLong(editCapacite.getText().toString());
+
+                    //Upload data
+                    uploadData(user,adresse,capacite);
+
+                }
                 // Input
-                String user = editUser.getText().toString();
-                String adresse = editAdresse.getText().toString();
-                int capacite = Integer.parseInt(editCapacite.getText().toString());
-                
-                //Upload data
-                uploadData(user,adresse,capacite);
+
             }
         });
 
@@ -107,7 +148,37 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadData(String user, String adresse, int capacite) {
+    private void updateData(String id, String user, String adresse, Long capacite) {
+        //Title of progress bar
+        pd.setTitle("Updating Data please wait");
+
+        //Show Progress Bar
+        pd.show();
+
+        //updating method
+        db.collection("Documents").document(id)
+                .update("user",user,"adresse",adresse,"capacite",capacite)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //Succesful Update
+                        pd.dismiss();
+                        Toast.makeText(HomeActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Unsuccessful Update
+                        pd.dismiss();
+                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }
+
+    private void uploadData(String user, String adresse, Long capacite) {
         //Title of progress bar
         pd.setTitle("Uploading Data please wait");
 

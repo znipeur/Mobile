@@ -1,6 +1,7 @@
 package com.example.projetparking;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,9 @@ public class ShowParkingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_parking);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("List Parking");
 
         //init firebase
         db = FirebaseFirestore.getInstance();
