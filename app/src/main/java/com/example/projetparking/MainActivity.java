@@ -12,20 +12,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
-    public EditText emailId, password;
+    public EditText emailId, password,editRole;
     Button btnSignUp;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;
+    FirebaseFirestore db ;
+    String user,role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        db = FirebaseFirestore.getInstance();
+        editRole = findViewById(R.id.editRole);
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
@@ -57,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                             else {
+                                user = editRole.getText().toString();
+                                role = editRole.getText().toString();
+                                uploadData(user,role);
                                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             }
 
@@ -78,5 +93,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+    }
+    private void uploadData(String usermail, String role) {
+
+        //Random ID
+        String id = UUID.randomUUID().toString();
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("id",id);
+        user.put("user",usermail);
+        user.put("role",role);
+
+        //add Data
+        db.collection("Users").document(id).set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 }

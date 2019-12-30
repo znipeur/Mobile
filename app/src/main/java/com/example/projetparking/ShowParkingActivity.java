@@ -42,6 +42,7 @@ public class ShowParkingActivity extends AppCompatActivity {
 
     ProgressDialog pd;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class ShowParkingActivity extends AppCompatActivity {
 
 
         //set recycler view properties
+        mRecycleView.setAdapter(adapter );
         mRecycleView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         mRecycleView.setLayoutManager(layoutManager);

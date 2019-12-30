@@ -29,7 +29,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         //inflate layout
-        View itemView = LayoutInflater.from(parent.getContext())
+        final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.model_layout,parent,false);
 
         ViewHolder viewHolder = new ViewHolder(itemView);
@@ -46,7 +46,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                         mapIntent.setPackage("com.google.android.apps.maps");
                         parkingActivity.startActivity(mapIntent);
                     }
-
 
             @Override
             public void onItemLongClick(View view, final int position) {
