@@ -9,44 +9,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.admin.v1beta1.Progress;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowParkingActivity extends AppCompatActivity {
-
+public class FournisseurParkingActivity extends AppCompatActivity {
     List<Model> modelList = new ArrayList<>();
     RecyclerView mRecycleView;
     FloatingActionButton mAddBtn;
+    FirebaseAuth mFireAuth;
 
     //layout manager for recycle view
     RecyclerView.LayoutManager layoutManager;
-
-    //firestore instance
     FirebaseFirestore db;
 
     CustomAdapter adapter;
 
     ProgressDialog pd;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_parking);
+        setContentView(R.layout.activity_fournisseur_parking);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("List Parking");
@@ -66,52 +61,52 @@ public class ShowParkingActivity extends AppCompatActivity {
         mRecycleView.setLayoutManager(layoutManager);
 
         pd = new ProgressDialog(this);
+        Bundle bundle = getIntent().getExtras();
         //show data in recycleView
-        showData();
+        showData(bundle.getString("user"));
+
+
 
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ShowParkingActivity.this,HomeActivity.class));
+                startActivity(new Intent(FournisseurParkingActivity.this,HomeActivity.class));
                 finish();
             }
-        });
+        });}
+        private void showData(String user) {
+            pd.setTitle("Loading");
+            pd.show();
 
-    }
+            db.collection("Documents").whereEqualTo("user",user)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            pd.dismiss();
 
-    private void showData() {
-        pd.setTitle("Loading");
-        pd.show();
-
-        db.collection("Documents")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        pd.dismiss();
-
-                        //show data
-                        for (DocumentSnapshot doc: task.getResult()) {
-                            Model model = new Model(doc.getString("id"),
-                                    doc.getString("user"),
-                                    doc.getString("adresse"),
-                                    doc.getLong("capacite"));
-                            modelList.add(model);
+                            //show data
+                            for (DocumentSnapshot doc: task.getResult()) {
+                                Model model = new Model(doc.getString("id"),
+                                        doc.getString("user"),
+                                        doc.getString("adresse"),
+                                        doc.getLong("capacite"));
+                                modelList.add(model);
+                            }
+                            //adapter
+                            adapter = new CustomAdapter(FournisseurParkingActivity.this,modelList,"user");
+                            //set adpater to recycle view
+                            mRecycleView.setAdapter(adapter);
                         }
-                        //adapter
-                        adapter = new CustomAdapter(ShowParkingActivity.this,modelList,"user");
-                        //set adpater to recycle view
-                        mRecycleView.setAdapter(adapter);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        pd.dismiss();
-                        Toast.makeText(ShowParkingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            pd.dismiss();
+                            Toast.makeText(FournisseurParkingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+        }
     }
-}
 

@@ -12,23 +12,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     public EditText emailId, password;
     Button btnSignIn;
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
+    FirebaseFirestore db;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //database
         mFirebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        //interface
         emailId = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         btnSignIn = findViewById(R.id.button);
@@ -41,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 if( mFirebaseUser != null ) {
                     Toast.makeText(LoginActivity.this,"You are logged in",Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-                    startActivity(i);
+                    //startActivity(i);
                 }
                 else {
                     Toast.makeText(LoginActivity.this,"Please Login",Toast.LENGTH_SHORT).show();
@@ -76,8 +85,28 @@ public class LoginActivity extends AppCompatActivity {
 
                             }
                             else {
-                                Intent intToHome = new Intent(LoginActivity.this,HomeActivity.class);
-                                startActivity(intToHome);
+                                db.collection("Users").document(emailId.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            String role = task.getResult().getString("role");
+                                            if (role.equals("admin")){
+                                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                            }
+                                            else if (role.equals("user")){
+                                                startActivity(new Intent(LoginActivity.this,UserHomeActivity.class));
+                                            }
+                                            else {
+                                                startActivity(new Intent(LoginActivity.this,FournisseurHomeActivity.class));
+                                            }
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this, "error bd", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
                             }
                         }
                     });
@@ -93,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intToSignup = new Intent( LoginActivity.this,MainActivity.class);
+                Intent intToSignup = new Intent( LoginActivity.this, InscriptionActivity.class);
                 startActivity(intToSignup);
             }
         });
@@ -103,5 +132,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        mFirebaseAuth.signOut();
+
     }
 }

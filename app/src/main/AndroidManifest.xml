@@ -9,18 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowParkingActivity"></activity>
+        <activity android:name=".AddParkingActivity"></activity>
+        <activity android:name=".FournisseurParkingActivity" />
+        <activity android:name=".FournisseurHomeActivity" />
+        <activity android:name=".UserHomeActivity" />
+        <activity android:name=".ShowParkingActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".InscriptionActivity" />
     </application>
 
 </manifest>

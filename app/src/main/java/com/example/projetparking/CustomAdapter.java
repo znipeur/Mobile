@@ -13,16 +13,34 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     ShowParkingActivity parkingActivity;
+    FournisseurParkingActivity fournisseurParkingActivity;
+    FirebaseFirestore db;
     List<Model> modelList;
+    String role;
     Context context;
 
-    public CustomAdapter(ShowParkingActivity parkingActivity, List<Model> modelList) {
+    //Parking user
+    public CustomAdapter(ShowParkingActivity parkingActivity, List<Model> modelList,String role) {
         this.parkingActivity = parkingActivity;
         this.modelList = modelList;
+        this.role = role;
+    }
+
+    //parking Fournisseur
+    public CustomAdapter(FournisseurParkingActivity fournisseurParkingActivity, List<Model> modelList, String role) {
+        this.fournisseurParkingActivity = fournisseurParkingActivity;
+        this.modelList = modelList;
+        this.role = role;
     }
 
     @NonNull
@@ -38,14 +56,20 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
             @Override
             public void onItemClick(View view, int position) {
 
-
+                if (role.equals("user")){
                 //show direction
                         String adresse = modelList.get(position).getAdresse();
                         Uri gmmIntentUri = Uri.parse("google.navigation:q="+adresse);
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         parkingActivity.startActivity(mapIntent);
+
                     }
+                else {
+                    Toast.makeText(parkingActivity, "admin", Toast.LENGTH_SHORT).show();
+                }
+            }
+
 
             @Override
             public void onItemLongClick(View view, final int position) {
@@ -85,6 +109,13 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         });
         return viewHolder;
+    }
+
+    private String getRole(FirebaseUser mUser) {
+        String  role;
+        db = FirebaseFirestore.getInstance();
+        role = db.collection("Users").document(mUser.getEmail()).get().getResult().getString("role");
+        return role;
     }
 
     @Override
