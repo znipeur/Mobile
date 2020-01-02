@@ -70,7 +70,7 @@ public class FournisseurParkingActivity extends AppCompatActivity {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FournisseurParkingActivity.this,HomeActivity.class));
+                startActivity(new Intent(FournisseurParkingActivity.this,AddParkingActivity.class));
                 finish();
             }
         });}
@@ -94,7 +94,7 @@ public class FournisseurParkingActivity extends AppCompatActivity {
                                 modelList.add(model);
                             }
                             //adapter
-                            adapter = new CustomAdapter(FournisseurParkingActivity.this,modelList,"user");
+                            adapter = new CustomAdapter(FournisseurParkingActivity.this,modelList,"fournisseur");
                             //set adpater to recycle view
                             mRecycleView.setAdapter(adapter);
                         }

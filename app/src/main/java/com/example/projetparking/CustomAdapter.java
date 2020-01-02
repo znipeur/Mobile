@@ -66,7 +66,19 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                     }
                 else {
-                    Toast.makeText(parkingActivity, "admin", Toast.LENGTH_SHORT).show();
+                    String id = modelList.get(position).getId();
+                    String user = modelList.get(position).getUser();
+                    String adresse = modelList.get(position).getAdresse();
+                    Long capacite = modelList.get(position).getCapacite();
+
+                    //intent
+                    Intent i = new Intent(fournisseurParkingActivity,DetailParkingActivity.class);
+                    //put data in Intent
+                    i.putExtra("parkid",id);
+                    i.putExtra("parkUser",user);
+                    i.putExtra("parkAdresse",adresse);
+                    i.putExtra("parkCapacite",capacite);
+                    fournisseurParkingActivity.startActivity(i);
                 }
             }
 
