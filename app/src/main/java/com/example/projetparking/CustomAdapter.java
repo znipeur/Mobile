@@ -24,6 +24,7 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     ShowParkingActivity parkingActivity;
     FournisseurParkingActivity fournisseurParkingActivity;
+    AdminParkingNotAllowedActivity adminParkingNotAllowedActivity;
     FirebaseFirestore db;
     List<Model> modelList;
     String role;
@@ -39,6 +40,13 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     //parking Fournisseur
     public CustomAdapter(FournisseurParkingActivity fournisseurParkingActivity, List<Model> modelList, String role) {
         this.fournisseurParkingActivity = fournisseurParkingActivity;
+        this.modelList = modelList;
+        this.role = role;
+    }
+
+    //Admin Parking
+    public CustomAdapter(AdminParkingNotAllowedActivity adminParkingNotAllowedActivity, List<Model> modelList, String role) {
+        this.adminParkingNotAllowedActivity = adminParkingNotAllowedActivity;
         this.modelList = modelList;
         this.role = role;
     }
@@ -65,7 +73,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                         parkingActivity.startActivity(mapIntent);
 
                     }
-                else {
+                else if (role.equals("fournisseur")){
                     String id = modelList.get(position).getId();
                     String user = modelList.get(position).getUser();
                     String adresse = modelList.get(position).getAdresse();
@@ -79,6 +87,22 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                     i.putExtra("parkAdresse",adresse);
                     i.putExtra("parkCapacite",capacite);
                     fournisseurParkingActivity.startActivity(i);
+                }
+                else{
+                    String id = modelList.get(position).getId();
+                    String user = modelList.get(position).getUser();
+                    String adresse = modelList.get(position).getAdresse();
+                    Long capacite = modelList.get(position).getCapacite();
+
+                    //intent
+                    Intent i = new Intent(adminParkingNotAllowedActivity,AdminDetailParking.class);
+                    //put data in Intent
+                    i.putExtra("parkid",id);
+                    i.putExtra("parkUser",user);
+                    i.putExtra("parkAdresse",adresse);
+                    i.putExtra("parkCapacite",capacite);
+                    adminParkingNotAllowedActivity.startActivity(i);
+
                 }
             }
 

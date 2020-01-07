@@ -87,6 +87,7 @@ public class AddParkingActivity extends AppCompatActivity {
         park.put("user",user);
         park.put("adresse",adresse);
         park.put("capacite",capacite);
+        park.put("allowed",false);
 
         //add Data
         db.collection("Documents").document(id).set(park)
