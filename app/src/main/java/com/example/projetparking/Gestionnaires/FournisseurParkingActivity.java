@@ -1,4 +1,4 @@
-package com.example.projetparking;
+package com.example.projetparking.Gestionnaires;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.projetparking.CustomAdapter;
+import com.example.projetparking.Model;
+import com.example.projetparking.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -70,7 +73,7 @@ public class FournisseurParkingActivity extends AppCompatActivity {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FournisseurParkingActivity.this,AddParkingActivity.class));
+                startActivity(new Intent(FournisseurParkingActivity.this, AddParkingActivity.class));
                 finish();
             }
         });}

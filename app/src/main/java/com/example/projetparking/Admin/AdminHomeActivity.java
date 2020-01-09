@@ -1,4 +1,4 @@
-package com.example.projetparking;
+package com.example.projetparking.Admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.projetparking.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         btnParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AdminHomeActivity.this,AdminParkingNotAllowedActivity.class));
+                startActivity(new Intent(AdminHomeActivity.this, AdminParkingNotAllowedActivity.class));
             }
         });
     }

@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projetparking.shared.HomeActivity;
+import com.example.projetparking.shared.LoginActivity;
+import com.example.projetparking.shared.Message;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class InscriptionActivity extends AppCompatActivity {
     public EditText emailId, password,editRole;
@@ -75,7 +77,7 @@ public class InscriptionActivity extends AppCompatActivity {
                                 role = editRole.getText().toString();
 
                                 uploadData(user,role);
-                                startActivity(new Intent(InscriptionActivity.this,HomeActivity.class));
+                                startActivity(new Intent(InscriptionActivity.this, HomeActivity.class));
                             }
 
 
@@ -92,7 +94,7 @@ public class InscriptionActivity extends AppCompatActivity {
         tvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(InscriptionActivity.this,LoginActivity.class);
+                Intent i = new Intent(InscriptionActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });

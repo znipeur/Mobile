@@ -9,19 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddMessageActivity"></activity>
-        <activity android:name=".MessageActivity" />
-        <activity android:name=".AdminDetailParking" />
-        <activity android:name=".AdminParkingNotAllowedActivity" />
-        <activity android:name=".DetailParkingActivity" />
-        <activity android:name=".AdminHomeActivity" />
-        <activity android:name=".AddParkingActivity" />
-        <activity android:name=".FournisseurParkingActivity" />
-        <activity android:name=".FournisseurHomeActivity" />
+        <activity android:name=".Admin.AddMessageActivity"></activity>
+        <activity android:name=".shared.MessageActivity" />
+        <activity android:name=".Admin.AdminDetailParking" />
+        <activity android:name=".Admin.AdminParkingNotAllowedActivity" />
+        <activity android:name=".Gestionnaires.DetailParkingActivity" />
+        <activity android:name=".Admin.AdminHomeActivity" />
+        <activity android:name=".Gestionnaires.AddParkingActivity" />
+        <activity android:name=".Gestionnaires.FournisseurParkingActivity" />
+        <activity android:name=".Gestionnaires.FournisseurHomeActivity" />
         <activity android:name=".UserHomeActivity" />
         <activity android:name=".ShowParkingActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".shared.HomeActivity" />
+        <activity android:name=".shared.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

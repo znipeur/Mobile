@@ -1,5 +1,7 @@
 package com.example.projetparking;
 
+import com.example.projetparking.shared.Message;
+
 import java.util.List;
 
 public class User {

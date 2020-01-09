@@ -1,4 +1,4 @@
-package com.example.projetparking;
+package com.example.projetparking.shared;
 
 public class Message {
     String emailSender,message;

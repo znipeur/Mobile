@@ -1,4 +1,4 @@
-package com.example.projetparking;
+package com.example.projetparking.shared;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,15 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projetparking.Admin.AdminHomeActivity;
+import com.example.projetparking.Gestionnaires.FournisseurHomeActivity;
+import com.example.projetparking.InscriptionActivity;
+import com.example.projetparking.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     public EditText emailId, password;
@@ -49,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if( mFirebaseUser != null ) {
                     Toast.makeText(LoginActivity.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                     //startActivity(i);
                 }
                 else {
@@ -91,13 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             String role = task.getResult().getString("role");
                                             if (role.equals("admin")){
-                                                startActivity(new Intent(LoginActivity.this,AdminHomeActivity.class));
+                                                startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
                                             }
                                             else if (role.equals("user")){
-                                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                             }
                                             else {
-                                                startActivity(new Intent(LoginActivity.this,FournisseurHomeActivity.class));
+                                                startActivity(new Intent(LoginActivity.this, FournisseurHomeActivity.class));
                                             }
                                         }
                                         else {

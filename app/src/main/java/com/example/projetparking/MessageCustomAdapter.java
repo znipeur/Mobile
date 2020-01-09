@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projetparking.shared.Message;
+import com.example.projetparking.shared.MessageActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
