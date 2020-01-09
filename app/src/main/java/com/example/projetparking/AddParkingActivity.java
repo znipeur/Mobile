@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class AddParkingActivity extends AppCompatActivity {
     Button btnChemin,btnSubmit,btnParking;
-    EditText editUser,editCapacite,editAdresse;
+    EditText editDescription,editCapacite,editAdresse;
     //Progress Dialog
     ProgressDialog pd;
 
@@ -31,7 +31,7 @@ public class AddParkingActivity extends AppCompatActivity {
     FirebaseFirestore db ;
     FirebaseAuth mFireAuth;
 
-    String parkId,parkUser,parkAdresse,parkCapacite;
+    String parkId,parkUser,parkAdresse,parkCapacite,parkDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class AddParkingActivity extends AppCompatActivity {
         btnChemin = findViewById(R.id.chemin);
         btnSubmit = findViewById(R.id.submit);
         btnParking = findViewById(R.id.parkBtn);
-        editUser = findViewById(R.id.editUser);
+        editDescription = findViewById(R.id.editDescription);
         editCapacite = findViewById(R.id.editCapacite);
         editAdresse = findViewById(R.id.editAdresse);
 
@@ -64,14 +64,14 @@ public class AddParkingActivity extends AppCompatActivity {
                 String user = mFireAuth.getCurrentUser().getEmail();
                 String adresse = editAdresse.getText().toString();
                 Long capacite = Long.parseLong(editCapacite.getText().toString());
-
+                String description=editDescription.getText().toString();
                 //Upload data
-                uploadData(user,adresse,capacite);
+                uploadData(user,adresse,capacite,description);
             }
         });
     }
 
-    private void uploadData(String user, String adresse, Long capacite) {
+    private void uploadData(String user, String adresse, Long capacite,String description) {
 
         //Title of progress bar
         pd.setTitle("Uploading Data please wait");
@@ -86,6 +86,7 @@ public class AddParkingActivity extends AppCompatActivity {
         park.put("id",id);
         park.put("user",user);
         park.put("adresse",adresse);
+        park.put("description",description);
         park.put("capacite",capacite);
         park.put("allowed",false);
 

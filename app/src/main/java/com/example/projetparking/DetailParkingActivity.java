@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailParkingActivity extends AppCompatActivity {
     Button btnAdd,btnSub;
-    TextView tvCapacite,tvAdresse;
+    TextView tvCapacite,tvAdresse,tvDescription;
     FirebaseFirestore db;
     Long capacite;
     String id;
@@ -32,10 +32,13 @@ public class DetailParkingActivity extends AppCompatActivity {
         btnSub = findViewById(R.id.btnSub);
         tvAdresse = findViewById(R.id.tvAdresse);
         tvCapacite = findViewById(R.id.tvCapacite);
+        tvDescription = findViewById(R.id.tvDescription);
+
         Bundle bundle = getIntent().getExtras();
         capacite = bundle.getLong("parkCapacite");
         id = bundle.getString("parkid");
         tvCapacite.setText(capacite.toString());
+        tvDescription.setText(bundle.getString("parkDescription"));
         tvAdresse.setText(bundle.getString("parkAdresse"));
 
         btnAdd.setOnClickListener(new View.OnClickListener() {

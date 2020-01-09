@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView mUserTv,mCapaciteTv,mAdresseTv;
+    TextView mUserTv,mCapaciteTv,mAdresseTv,mDescriptionTv;
     View mView;
 
 
@@ -38,6 +38,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         mUserTv = itemView.findViewById(R.id.parkuser);
         mAdresseTv = itemView.findViewById(R.id.parkadresse);
         mCapaciteTv = itemView.findViewById(R.id.parkcapacite);
+        mDescriptionTv = itemView.findViewById(R.id.parkdesc);
     }
 
     private ViewHolder.ClickListener mClickListener;

@@ -94,7 +94,7 @@ public class ShowParkingActivity extends AppCompatActivity {
                             Model model = new Model(doc.getString("id"),
                                     doc.getString("user"),
                                     doc.getString("adresse"),
-                                    doc.getLong("capacite"),doc.getBoolean("allowed"));
+                                    doc.getLong("capacite"),doc.getBoolean("allowed"),doc.getString("description"));
                             modelList.add(model);
                         }
                         //adapter

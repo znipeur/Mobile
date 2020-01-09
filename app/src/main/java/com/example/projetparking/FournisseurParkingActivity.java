@@ -90,7 +90,7 @@ public class FournisseurParkingActivity extends AppCompatActivity {
                                 Model model = new Model(doc.getString("id"),
                                         doc.getString("user"),
                                         doc.getString("adresse"),
-                                        doc.getLong("capacite"),false);
+                                        doc.getLong("capacite"),false,doc.getString("description"));
                                 modelList.add(model);
                             }
                             //adapter

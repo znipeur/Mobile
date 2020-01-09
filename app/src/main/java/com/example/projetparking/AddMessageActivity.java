@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 public class AddMessageActivity extends AppCompatActivity {
     Button btnSend;
+    TextView muserTv;
     EditText editUser,editMessage;
     FirebaseFirestore db;
     FirebaseAuth mFireBaseAuth;
@@ -36,11 +38,12 @@ public class AddMessageActivity extends AppCompatActivity {
 
         btnSend = findViewById(R.id.btnSendMessage);
         editMessage = findViewById(R.id.editMessage);
+        muserTv = findViewById(R.id.userTv);
         editUser = findViewById(R.id.editUser);
         db = FirebaseFirestore.getInstance();
         mFireBaseAuth = FirebaseAuth.getInstance();
         bundle = getIntent().getExtras();
-        editUser.setText(bundle.getString("destinatire"));
+        muserTv.setText(bundle.getString("destinatire"));
 
 
         String id = UUID.randomUUID().toString();

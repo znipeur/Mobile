@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SearchRecentSuggestionsProvider;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +86,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                     String id = modelList.get(position).getId();
                     String user = modelList.get(position).getUser();
                     String adresse = modelList.get(position).getAdresse();
+                    String description = modelList.get(position).getDescription();
                     Long capacite = modelList.get(position).getCapacite();
 
                     //intent
@@ -93,6 +95,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                     i.putExtra("parkid",id);
                     i.putExtra("parkUser",user);
                     i.putExtra("parkAdresse",adresse);
+                    i.putExtra("parkDescription",description);
                     i.putExtra("parkCapacite",capacite);
                     fournisseurParkingActivity.startActivity(i);
                 }
@@ -174,6 +177,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.mUserTv.setText(modelList.get(position).getUser());
             holder.mAdresseTv.setText(modelList.get(position).getAdresse());
             holder.mCapaciteTv.setText(modelList.get(position).getCapacite().toString());
+            holder.mDescriptionTv.setText(modelList.get(position).getDescription());
         }
     }
 
