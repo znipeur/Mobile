@@ -25,8 +25,10 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     ShowParkingActivity parkingActivity;
     FournisseurParkingActivity fournisseurParkingActivity;
     AdminParkingNotAllowedActivity adminParkingNotAllowedActivity;
+    MessageActivity messageActivity;
     FirebaseFirestore db;
     List<Model> modelList;
+    List<Message> messageList;
     String role;
     Context context;
 
@@ -48,6 +50,12 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     public CustomAdapter(AdminParkingNotAllowedActivity adminParkingNotAllowedActivity, List<Model> modelList, String role) {
         this.adminParkingNotAllowedActivity = adminParkingNotAllowedActivity;
         this.modelList = modelList;
+        this.role = role;
+    }
+    //Message
+    public CustomAdapter(MessageActivity messageActivity, List<Message> messageList, String role) {
+        this.messageActivity = messageActivity;
+        this.messageList = messageList;
         this.role = role;
     }
 
@@ -88,7 +96,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                     i.putExtra("parkCapacite",capacite);
                     fournisseurParkingActivity.startActivity(i);
                 }
-                else{
+                else if(role.equals("admin")){
                     String id = modelList.get(position).getId();
                     String user = modelList.get(position).getUser();
                     String adresse = modelList.get(position).getAdresse();
@@ -157,13 +165,24 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //bind Views / set data
-        holder.mUserTv.setText(modelList.get(position).getUser());
-        holder.mAdresseTv.setText(modelList.get(position).getAdresse());
-        holder.mCapaciteTv.setText(modelList.get(position).getCapacite().toString());
+        if (role.equals("message")) {
+            holder.mUserTv.setText(messageList.get(position).getEmailSender());
+            holder.mAdresseTv.setText(messageList.get(position).getMessage());
+            holder.mCapaciteTv.setText("");
+        }
+        else{
+            holder.mUserTv.setText(modelList.get(position).getUser());
+            holder.mAdresseTv.setText(modelList.get(position).getAdresse());
+            holder.mCapaciteTv.setText(modelList.get(position).getCapacite().toString());
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (role.equals("message")){
+            return messageList.size();
+        }
+        else {
         return modelList.size();
-    }
+    }}
 }

@@ -28,7 +28,7 @@ import java.util.UUID;
 public class HomeActivity extends AppCompatActivity {
     Button btnLogout;
     FirebaseAuth mFirebaseAuth;
-    Button btnChemin,btnSubmit,btnParking;
+    Button btnChemin,btnSubmit,btnParking,btnMessage;
     EditText editUser,editCapacite,editAdresse;
     //Progress Dialog
     ProgressDialog pd;
@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         editUser = findViewById(R.id.editUser);
         editCapacite = findViewById(R.id.editCapacite);
         editAdresse = findViewById(R.id.editAdresse);
+        btnMessage = findViewById(R.id.btnMessage);
 
         //IF we are coming here after an Intent from another activity;
         Bundle bundle = getIntent().getExtras();
@@ -85,6 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
 
         //Firestore
+        mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +146,14 @@ public class HomeActivity extends AppCompatActivity {
                 Intent i =new Intent(HomeActivity.this, ShowParkingActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =new Intent(HomeActivity.this, MessageActivity.class);
+                i.putExtra("user",mFirebaseAuth.getCurrentUser().getEmail());
+                startActivity(i);
             }
         });
     }

@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FournisseurHomeActivity extends AppCompatActivity {
-    Button btnParking;
+    Button btnParking,btnMessage;
     FirebaseAuth mfirebaseAuth;
     FirebaseFirestore db;
 
@@ -22,6 +22,7 @@ public class FournisseurHomeActivity extends AppCompatActivity {
         mfirebaseAuth = FirebaseAuth.getInstance();
 
         btnParking = findViewById(R.id.parkBtn);
+        btnMessage = findViewById(R.id.btnMessage);
         db = FirebaseFirestore.getInstance();
 
 
@@ -29,6 +30,12 @@ public class FournisseurHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FournisseurHomeActivity.this,FournisseurParkingActivity.class).putExtra("user",mfirebaseAuth.getCurrentUser().getEmail()));
+            }
+        });
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FournisseurHomeActivity.this,MessageActivity.class).putExtra("user",mfirebaseAuth.getCurrentUser().getEmail()));
             }
         });
     }

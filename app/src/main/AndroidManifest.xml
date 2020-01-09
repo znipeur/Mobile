@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminDetailParking"></activity>
+        <activity android:name=".AddMessageActivity"></activity>
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".AdminDetailParking" />
         <activity android:name=".AdminParkingNotAllowedActivity" />
         <activity android:name=".DetailParkingActivity" />
         <activity android:name=".AdminHomeActivity" />

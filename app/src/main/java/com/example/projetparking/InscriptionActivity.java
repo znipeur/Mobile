@@ -18,7 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -71,7 +73,7 @@ public class InscriptionActivity extends AppCompatActivity {
                             else {
                                 user = emailId.getText().toString();
                                 role = editRole.getText().toString();
-                                User use = new User(user,role);
+
                                 uploadData(user,role);
                                 startActivity(new Intent(InscriptionActivity.this,HomeActivity.class));
                             }
@@ -101,8 +103,10 @@ public class InscriptionActivity extends AppCompatActivity {
         //Random ID
         Map<String, Object> user = new HashMap<>();
 
+        List<Message> listMessage = new ArrayList<>();
         user.put("user",usermail);
         user.put("role",role);
+        user.put("listMessage",listMessage);
 
         //add Data
         db.collection("Users").document(usermail).set(user)
