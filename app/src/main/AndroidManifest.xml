@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.AddMessageActivity"></activity>
+        <activity android:name=".UserDetailParkingActivity"></activity>
+        <activity android:name=".Admin.AdminAllParkings" />
+        <activity android:name=".Admin.AdminListAllUser" />
+        <activity android:name=".Admin.DetailUserActivity" />
+        <activity android:name=".Admin.AdminGestionnaireAllow" />
+        <activity android:name=".Admin.AddMessageActivity" />
         <activity android:name=".shared.MessageActivity" />
         <activity android:name=".Admin.AdminDetailParking" />
         <activity android:name=".Admin.AdminParkingNotAllowedActivity" />
@@ -18,7 +23,6 @@
         <activity android:name=".Gestionnaires.AddParkingActivity" />
         <activity android:name=".Gestionnaires.FournisseurParkingActivity" />
         <activity android:name=".Gestionnaires.FournisseurHomeActivity" />
-        <activity android:name=".UserHomeActivity" />
         <activity android:name=".ShowParkingActivity" />
         <activity android:name=".shared.HomeActivity" />
         <activity android:name=".shared.LoginActivity">
@@ -28,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InscriptionActivity" />
+        <activity android:name=".shared.InscriptionActivity" />
     </application>
 
 </manifest>

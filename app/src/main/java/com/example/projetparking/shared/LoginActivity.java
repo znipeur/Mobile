@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.projetparking.Admin.AdminHomeActivity;
 import com.example.projetparking.Gestionnaires.FournisseurHomeActivity;
-import com.example.projetparking.InscriptionActivity;
 import com.example.projetparking.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,6 +98,10 @@ public class LoginActivity extends AppCompatActivity {
                                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                             }
                                             else {
+                                                if (task.getResult().getBoolean("allowed")==false){
+                                                    mFirebaseAuth.signOut();
+                                                    Toast.makeText(LoginActivity.this, "You are not allowed to login please wait for an admin to deblock your account", Toast.LENGTH_SHORT).show();
+                                                }
                                                 startActivity(new Intent(LoginActivity.this, FournisseurHomeActivity.class));
                                             }
                                         }

@@ -39,7 +39,6 @@ public class AddMessageActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSendMessage);
         editMessage = findViewById(R.id.editMessage);
         muserTv = findViewById(R.id.userTv);
-        editUser = findViewById(R.id.editUser);
         db = FirebaseFirestore.getInstance();
         mFireBaseAuth = FirebaseAuth.getInstance();
         bundle = getIntent().getExtras();

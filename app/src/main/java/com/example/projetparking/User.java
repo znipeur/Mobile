@@ -5,16 +5,33 @@ import com.example.projetparking.shared.Message;
 import java.util.List;
 
 public class User {
-    public String email,role;
-    public List<Message> listMessage;
+    public String email,role,name;
+    private Boolean allow;
 
-    public User(String email, String role,List<Message> listMessage) {
+    public User(String email, String role,String name,Boolean allow) {
         this.email = email;
         this.role = role;
-        this.listMessage = listMessage;
+        this.name = name;
+        this.allow = allow;
+    }
+
+    public Boolean getAllow() {
+        return allow;
+    }
+
+    public void setAllow(Boolean allow) {
+        this.allow = allow;
     }
 
     public User() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -33,11 +50,4 @@ public class User {
         this.role = role;
     }
 
-    public List<Message> getListMessage() {
-        return listMessage;
-    }
-
-    public void setListMessage(List<Message> listMessage) {
-        this.listMessage = listMessage;
-    }
 }

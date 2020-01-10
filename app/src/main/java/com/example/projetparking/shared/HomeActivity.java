@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.projetparking.InscriptionActivity;
 import com.example.projetparking.R;
 import com.example.projetparking.ShowParkingActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,37 +53,11 @@ public class HomeActivity extends AppCompatActivity {
 
         //initialise composant de la page.
         btnLogout = findViewById(R.id.logout);
-        btnChemin = findViewById(R.id.chemin);
         btnSubmit = findViewById(R.id.submit);
         btnParking = findViewById(R.id.parkBtn);
-        editUser = findViewById(R.id.editUser);
         editCapacite = findViewById(R.id.editCapacite);
         editAdresse = findViewById(R.id.editAdresse);
         btnMessage = findViewById(R.id.btnMessage);
-
-        //IF we are coming here after an Intent from another activity;
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            //Update
-            actionBar.setTitle("Update Parking");
-            btnSubmit.setText("Update");
-
-            //get Data
-            parkId = bundle.getString("parkId");
-            parkUser = bundle.getString("parkUser");
-            parkAdresse = bundle.getString("parkAdresse");
-            parkCapacite = bundle.getString("parkCapacite");
-
-            //set Data
-            editUser.setText(parkUser);
-            editAdresse.setText(parkAdresse);
-            editCapacite.setText(parkCapacite);
-        }
-        else {
-            actionBar.setTitle("Add Parking");
-            btnSubmit.setText("Save");
-        }
-
         //Progress
         pd = new ProgressDialog(this);
 
@@ -101,46 +74,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //Chemin Google Maps
-        btnChemin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=82 Avenue des Nations Unies+ Rabat");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
-        });
 
-        //Click submit to upload
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = getIntent().getExtras();
-                if(bundle!=null){
-                    String user = editUser.getText().toString();
-                    String adresse = editAdresse.getText().toString();
-                    Long capacite = Long.parseLong(editCapacite.getText().toString());
-                    String id = parkId;
-
-                    //Updating the data
-                    updateData(id,user,adresse,capacite);
-
-                }
-                else {
-                    //adding new
-                    String user = editUser.getText().toString();
-                    String adresse = editAdresse.getText().toString();
-                    Long capacite = Long.parseLong(editCapacite.getText().toString());
-
-                    //Upload data
-                    uploadData(user,adresse,capacite);
-
-                }
-                // Input
-
-            }
-        });
 
         //Show Parking
         btnParking.setOnClickListener(new View.OnClickListener() {
@@ -161,71 +95,5 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void updateData(String id, String user, String adresse, Long capacite) {
-        //Title of progress bar
-        pd.setTitle("Updating Data please wait");
-
-        //Show Progress Bar
-        pd.show();
-
-        //updating method
-        db.collection("Documents").document(id)
-                .update("user",user,"adresse",adresse,"capacite",capacite)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        //Succesful Update
-                        pd.dismiss();
-                        Toast.makeText(HomeActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //Unsuccessful Update
-                        pd.dismiss();
-                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
 
     }
-
-    private void uploadData(String user, String adresse, Long capacite) {
-        //Title of progress bar
-        pd.setTitle("Uploading Data please wait");
-
-        //Show Progress Bar
-        pd.show();
-
-        //Random ID
-        String id = UUID.randomUUID().toString();
-
-        Map<String, Object> park = new HashMap<>();
-        park.put("id",id);
-        park.put("user",user);
-        park.put("adresse",adresse);
-        park.put("capacite",capacite);
-
-        //add Data
-        db.collection("Documents").document(id).set(park)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        //Upload successful
-                        pd.dismiss();
-                        Toast.makeText(HomeActivity.this,"Upload Succesful",Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //Upload Failed
-                        pd.dismiss();
-                        Toast.makeText(HomeActivity.this,"Upload Failed . Error = "+e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
-}

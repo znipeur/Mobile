@@ -45,7 +45,6 @@ public class AddParkingActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         //initialise composant de la page.
-        btnChemin = findViewById(R.id.chemin);
         btnSubmit = findViewById(R.id.submit);
         btnParking = findViewById(R.id.parkBtn);
         editDescription = findViewById(R.id.editDescription);

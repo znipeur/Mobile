@@ -1,4 +1,4 @@
-package com.example.projetparking;
+package com.example.projetparking.shared;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.projetparking.shared.HomeActivity;
-import com.example.projetparking.shared.LoginActivity;
-import com.example.projetparking.shared.Message;
+import com.example.projetparking.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,12 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 public class InscriptionActivity extends AppCompatActivity {
-    public EditText emailId, password,editRole;
+    public EditText emailId, password,editRole,editName;
     Button btnSignUp;
+    RadioButton btnGestionnaire,btnUser;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore db ;
-    String user,role;
+    String user,role,name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +41,13 @@ public class InscriptionActivity extends AppCompatActivity {
 
 
         db = FirebaseFirestore.getInstance();
-        editRole = findViewById(R.id.editRole);
+        editName = findViewById(R.id.editName);
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         btnSignUp = findViewById(R.id.button);
+        btnGestionnaire = findViewById(R.id.btnGestionnaire);
+        btnUser = findViewById(R.id.btnUser);
         tvSignIn = findViewById(R.id.textView);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +76,15 @@ public class InscriptionActivity extends AppCompatActivity {
                             }
                             else {
                                 user = emailId.getText().toString();
-                                role = editRole.getText().toString();
+                                name = editName.getText().toString();
+                                if (btnGestionnaire.isChecked()){
+                                    role = "fournisseur";
+                                }
+                                else if (btnUser.isChecked()){
+                                    role = "user";
+                                }
 
-                                uploadData(user,role);
+                                uploadData(user,role,name);
                                 startActivity(new Intent(InscriptionActivity.this, HomeActivity.class));
                             }
 
@@ -100,7 +108,7 @@ public class InscriptionActivity extends AppCompatActivity {
         });
 
     }
-    private void uploadData(String usermail, String role) {
+    private void uploadData(String usermail, String role,String name) {
 
         //Random ID
         Map<String, Object> user = new HashMap<>();
@@ -108,7 +116,8 @@ public class InscriptionActivity extends AppCompatActivity {
         List<Message> listMessage = new ArrayList<>();
         user.put("user",usermail);
         user.put("role",role);
-        user.put("listMessage",listMessage);
+        user.put("name",name);
+        user.put("allowed",false);
 
         //add Data
         db.collection("Users").document(usermail).set(user)
